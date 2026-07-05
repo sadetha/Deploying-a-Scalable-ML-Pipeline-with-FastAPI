@@ -1,6 +1,7 @@
 import pickle
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
+from sklearn.linear_model import LogisticRegression
 # TODO: add necessary import
 
 # Optional: implement hyperparameter tuning.
@@ -19,8 +20,10 @@ def train_model(X_train, y_train):
     model
         Trained machine learning model.
     """
-    # TODO: implement the function
-    pass
+    model = LogisticRegression(random_state = 0) #https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
+    model.fit(X_train,y_train)
+    return model
+
 
 
 def compute_model_metrics(y, preds):
@@ -59,8 +62,9 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    # TODO: implement the function
-    pass
+    preds = model.predict(X) #https://scikit-learn.org/1.3/tutorial/statistical_inference/supervised_learning.html
+    return preds
+
 
 def save_model(model, path):
     """ Serializes model to a file.
@@ -72,13 +76,15 @@ def save_model(model, path):
     path : str
         Path to save pickle file.
     """
-    # TODO: implement the function
-    pass
+    with open(path, 'wb') as f:
+        pickle.dump(model, f) #https://docs.python.org/3/library/pickle.html
+
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
-    # TODO: implement the function
-    pass
+    with open(path, 'rb') as f:
+        return pickle.load(f) #https://docs.python.org/3/library/pickle.html
+
 
 
 def performance_on_categorical_slice(
