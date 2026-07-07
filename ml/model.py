@@ -1,7 +1,9 @@
 import pickle
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression #importing for train_model function
+from sklearn.preprocessing import LabelBinarizer, OneHotEncoder #importing for the performance_on_categorical_slice function
+
 # TODO: add necessary import
 
 # Optional: implement hyperparameter tuning.
@@ -53,7 +55,7 @@ def inference(model, X):
 
     Inputs
     ------
-    model : ???
+    model : make prediction with training model
         Trained machine learning model.
     X : np.array
         Data used for prediction.
@@ -113,7 +115,7 @@ def performance_on_categorical_slice(
         Trained sklearn OneHotEncoder, only used if training=False.
     lb : sklearn.preprocessing._label.LabelBinarizer
         Trained sklearn LabelBinarizer, only used if training=False.
-    model : ???
+    model : logistic regression model called earlier
         Model used for the task.
 
     Returns
@@ -124,11 +126,15 @@ def performance_on_categorical_slice(
 
     """
     # TODO: implement the function
-    X_slice, y_slice, _, _ = process_data(
-        # your code here
-        # for input data, use data in column given as "column_name", with the slice_value 
-        # use training = False
+    column_data = data[data[column_name]== slice_value] # for input data, use data in column given as "column_name", with the slice_value 
+    X_slice, y_slice, _, _ = process_data( #process data function from daya.py
+        column_data,
+        categorical_features = cat_features,
+        label,
+        training = False, # use training = False
+        encoder,
+        lb        
     )
-    preds = None # your code here to get prediction on X_slice using the inference function
+    preds = inference(model, X_slice) # calling inference function on X_slice
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
     return precision, recall, fbeta
