@@ -13,7 +13,7 @@ from ml.model import (
     train_model,
 )
 # TODO: load the cencus.csv data
-project_path = "Your path here"
+project_path = os.getcwd()
 data_path = os.path.join(project_path, "data", "census.csv")
 print(data_path)
 data = pd.read_csv('data/census.csv') #loading census
@@ -39,8 +39,8 @@ cat_features = [
 X_train, y_train, encoder, lb = process_data(
     train, # use the train dataset 
     categorical_features = cat_features,
-    label,
-    training = True, # use training=True
+    label = 'salary', #setting equal to salary per the pre-provided code in line 51
+    training = True # use training=True
     # do not need to pass encoder and lb as input
     )
 
@@ -55,7 +55,7 @@ X_test, y_test, _, _ = process_data(
 )
 
 # TODO: use the train_model function to train the model on the training dataset
-model = None # your code here
+model = train_model(X_train, y_train)
 
 # save the model and the encoder
 model_path = os.path.join(project_path, "model", "model.pkl")
@@ -69,7 +69,7 @@ model = load_model(
 ) 
 
 # TODO: use the inference function to run the model inferences on the test dataset.
-preds = None # your code here
+preds = inference(model, X_test)
 
 # Calculate and print the metrics
 p, r, fb = compute_model_metrics(y_test, preds)
@@ -82,9 +82,16 @@ for col in cat_features:
     for slicevalue in sorted(test[col].unique()):
         count = test[test[col] == slicevalue].shape[0]
         p, r, fb = performance_on_categorical_slice(
-            # your code here
+            test, #use test
+            col, #use col
+            slicevalue, #use slice value
+            cat_features, #using cat_features due to how it is called in the function
+            label = 'salary', #salary added per the pre-provided code that sets label = saary
+            encoder = encoder, #the rest comes stright from the original function
+            lb = lb,
+            model = model
             # use test, col and slicevalue as part of the input
-        )
+            )
         with open("slice_output.txt", "a") as f:
             print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
             print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)

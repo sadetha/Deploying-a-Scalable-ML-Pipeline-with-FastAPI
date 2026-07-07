@@ -129,12 +129,12 @@ def performance_on_categorical_slice(
     column_data = data[data[column_name]== slice_value] # for input data, use data in column given as "column_name", with the slice_value 
     X_slice, y_slice, _, _ = process_data( #process data function from daya.py
         column_data,
-        categorical_features = cat_features,
-        label,
+        categorical_features = categorical_features,
+        label = label, #passing due to errors during run
         training = False, # use training = False
-        encoder,
-        lb        
-    )
+        encoder = encoder, #passing due to errors
+        lb = lb  #passing due to errors  
+        )
     preds = inference(model, X_slice) # calling inference function on X_slice
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
     return precision, recall, fbeta
