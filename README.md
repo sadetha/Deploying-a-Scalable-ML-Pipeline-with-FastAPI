@@ -1,4 +1,6 @@
 Working in a command line environment is recommended for ease of use with git and dvc. If on Windows, WSL1 or 2 is recommended.
+# GitHub Link
+* https://github.com/sadetha/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/tree/main/screenshots
 
 # Environment Set up (pip or conda)
 * Option 1: use the supplied file `environment.yml` to create a new environment with conda
