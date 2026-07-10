@@ -70,5 +70,5 @@ async def post_inference(data: Data):
         encoder = encoder
         # do not need to pass lb as input
     )
-    _inference = apply_label(data_processed) # using the apply_label funtion from ml.data to predict the result using data_processed
+    _inference = inference(model, data_processed) #calling inference on the model using data_processed
     return {"result": apply_label(_inference)}
